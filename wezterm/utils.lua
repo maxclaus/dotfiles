@@ -38,9 +38,7 @@ function M.tab_title(tab)
   end
 
   if tab.active_pane.is_zoomed then
-    local pane = tab.active_pane
-    local proc_name = M.basename(pane.foreground_process_name)
-    title = title .. ":" .. proc_name
+    title = title .. " "
   end
 
   return title

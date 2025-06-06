@@ -16,14 +16,18 @@ if wezterm.config_builder then
 end
 
 -- For example, changing the color scheme:
--- config.color_scheme = "Catppuccin Macchiato"
--- config.font = wezterm.font("JetBrains Mono NL")
 config.color_scheme = "OneDark (base16)"
 config.font = wezterm.font("FiraMono Nerd Font Mono")
 config.font_size = 16
-config.tab_max_width = 20
+config.tab_max_width = 100
 
-config.window_decorations = "RESIZE"
+-- config.window_decorations = "RESIZE"
+config.window_padding = {
+  left = 20,
+  right = 20,
+  top = 30, -- padding for macos top bar
+  bottom = 20,
+}
 
 -- tmux
 config.leader = { key = "o", mods = "CTRL", timeout_milliseconds = 2000 }
@@ -42,7 +46,7 @@ config.keys = {
   -- Splitting
   {
     mods = "LEADER",
-    key = "|",
+    key = "\\",
     action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
   },
   {
@@ -58,13 +62,6 @@ config.keys = {
     action = wezterm.action.PaneSelect({
       mode = "SwapWithActive",
     }),
-  },
-
-  -- Palette
-  {
-    key = ":",
-    mods = "LEADER",
-    action = wezterm.action.ActivateCommandPalette,
   },
 
   -- Tab Navigation
@@ -104,8 +101,8 @@ config.keys = {
   -- Cycle Panes Forward/Backward
   -- Keep zoomed state when active.
   {
-    key = "]",
-    mods = "CMD",
+    key = ";",
+    mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
       local panes = pane:tab():panes_with_info()
       local is_zoomed = false
@@ -162,7 +159,6 @@ config.keys = {
   -- Zoom/Zen
   {
     mods = "LEADER",
-
     key = "z",
     action = wezterm.action.TogglePaneZoomState,
   },
@@ -223,13 +219,13 @@ for i = 0, 9 do
   table.insert(config.keys, {
     key = tostring(i),
     mods = "LEADER",
-    action = wezterm.action.ActivateTab(i),
+    action = wezterm.action.ActivateTab(i - 1),
   })
 end
 
 -- tab bar
 config.hide_tab_bar_if_only_one_tab = false
-config.tab_bar_at_bottom = true
+-- config.tab_bar_at_bottom = true
 config.use_fancy_tab_bar = false
 config.tab_and_split_indices_are_zero_based = true
 
@@ -257,16 +253,19 @@ wezterm.on("update-right-status", function(window, _)
   }))
 end)
 
--- Tab title
+-- Current tab title
 wezterm.on("format-tab-title", function(tab)
-  return wezterm.format({
+  -- -- and that we have room for the edges.
+  -- title = wezterm.truncate_right(title, max_width - 2)
+
+  return {
     { Attribute = { Intensity = "Bold" } },
     { Text = string.format(" %s. ", tab.tab_index + 1) },
     "ResetAttributes",
     { Text = utils.tab_title(tab) },
     { Foreground = { Color = colors.base } },
-    { Text = " ▕" },
-  })
+    { Text = "▕" },
+  }
 end)
 
 -- and finally, return the configuration to wezterm
