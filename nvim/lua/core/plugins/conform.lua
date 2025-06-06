@@ -18,6 +18,8 @@ return {
       go = { 'goimports', 'gofmt' },
       javascript = { 'prettier' },
       javascriptreact = { 'prettier' }, -- used by the Flow language
+      typescript = { 'prettier' },
+      typescriptreact = { 'prettier' },
       -- json = { 'prettier' },
       lua = { 'stylua' },
       markdown = { 'prettier' },
@@ -32,6 +34,8 @@ return {
   },
   config = function(_, opts)
     local conform = require 'conform'
+    local util = require 'conform.util'
+
     conform.setup(opts)
     -- conform.formatters.shfmt = {
     --   prepend_args = { '-i', '2' }, -- 2 spaces instead of tab
@@ -41,6 +45,13 @@ return {
     }
     conform.formatters.yamlfmt = {
       prepend_args = { '-formatter', 'indent=2,include_document_start=true,retain_line_breaks_single=true' },
+    }
+    conform.formatters.clang_format = {
+      -- cwd = util.root_file { '.editorconfig', '.clang-format' },
+      -- require_cwd = true,
+      -- append_args = {
+      --   '--style={BasedOnStyle: Google, IndentWidth: 4, BinPackArguments: false, BinPackParameters: false, AlignAfterOpenBracket: BlockIndent }',
+      -- },
     }
 
     vim.g.disable_autoformat = false

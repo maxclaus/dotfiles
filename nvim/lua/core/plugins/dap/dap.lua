@@ -106,7 +106,10 @@ local function configure_debuggers()
       type = 'lldb',
       request = 'launch',
       program = function()
-        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        return vim.fn.input {
+          prompt = 'Path to executable: ',
+          completion = 'file',
+        }
       end,
       cwd = '${workspaceFolder}',
       stopOnEntry = false,

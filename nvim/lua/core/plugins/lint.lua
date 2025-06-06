@@ -15,6 +15,8 @@ return {
       lua = { 'selene' },
       -- sh = { 'shellcheck' },
       yaml = { 'yamllint' },
+      javascript = { 'eslint_d' },
+      typescript = { 'eslint_d' },
     },
   },
   config = function(_, opts)

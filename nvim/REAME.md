@@ -13,8 +13,16 @@ How to dbg neovim: https://www.reddit.com/r/neovim/comments/lnd22u/comment/gnzz5
 5. `F11` step into
 6. `F12` step out
 
-Make sure the program is compiled with debug support.
-If there are any problems, enable the TRACE log level for the dap plugin and check the logs at
+Make sure the program is compiled with debug support, for instance, a C project requires to be built with `-g` flag.
+If there are any problems, enable the TRACE log level for the dap plugin and check the logs with `:DapShowLog`
+
+If it logs an error like this:
+
+```
+Debug adapter didn't respond. Either the adapter is slow (then wait and ignore this) or there is a problem with your adapter ...
+```
+
+The debugger might be working fine, it just too slow to start. So, wait a bit more, something like a minute to confirm whether or not it is working.
 
 ## Updating dependencies
 

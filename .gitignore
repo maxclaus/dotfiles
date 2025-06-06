@@ -10,3 +10,13 @@ bundles/
 .undo
 .DS_Store
 vim/autoload/plug.vim
+
+# Fish
+fish/completions
+fish/conf.d
+fish/functions/*
+!fish/functions/gopen.fish
+fishd.*
+fish_history
+fish_variables
+config.local.fish

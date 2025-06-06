@@ -11,6 +11,7 @@ local M = {
     'ptethng/telescope-makefile',
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     -- 'nvim-lua/plenary.nvim',
+    'BurntSushi/ripgrep',
   },
   keys = {
     -- Search stuff
