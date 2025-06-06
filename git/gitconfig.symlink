@@ -4,17 +4,13 @@
 [hub]
   protocol = https
 [user]
-  name = Max Claus Nunes
-  email = maxcnunes@gmail.com
+  name = Max Claus
+  email = maxclaus@posteo.com
   signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG0LatPsb3KqjZVFbB/cr1LpA268IA0G2VR56ndo41ob
 [credential]
   helper = osxkeychain
 [alias]
   co = checkout
-  promote = !$ZSH/bin/git-promote
-  wtf     = !$ZSH/bin/git-wtf
-  rank-contributors = !$ZSH/bin/git-rank-contributors
-  count   = !git shortlog -sn
   delete-merged-local-branches = !git branch --merged | grep -Ev '^(\\*|main|master|production|development|develop|dev)' | xargs -n 1 git branch -d
 [color]
   diff = auto
@@ -35,18 +31,6 @@
   autocorrect = 1
 [push]
   default = current
-[sendemail]
-  smtpEncryption = tls
-  smtpServer = smtp.gmail.com
-  smtpUser = maxcnunes@gmail.com
-  smtpServerPort = 587
-[url "git@github.com:"]
-  insteadOf = https://github.com/
-[filter "lfs"]
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  process = git-lfs filter-process
-  required = true
 [diff]
   algorithm = patience
 [commit]
@@ -55,3 +39,5 @@
   format = ssh
 [gpg "ssh"]
   program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[includeIf "gitdir:~/Development/ernest/"]
+  path = ~/.gitconfig-ernest
