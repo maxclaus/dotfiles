@@ -24,3 +24,5 @@ chsh -s $(echo $ZSH_BIN)
 
 # Link zsh settings file to the home
 ln -sf ~/.dotfiles/zsh/zshrc.symlink ~/.zshrc
+
+brew install zsh-syntax-highlighting zsh-autosuggestions

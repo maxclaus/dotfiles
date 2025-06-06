@@ -99,11 +99,7 @@ kill_process_running_at_port() {
 
 
 ## -> Load secret configurations
-if [[ "$USER" == "core" ]]; then
-	source /Users/maxcnunes/Dropbox/dotfiles-secret/alias.sh
-else
-	source ~/Dropbox/dotfiles-secret/alias.sh
-fi
+source ~/Dropbox/dotfiles-secret/alias.sh
 
 envup () {
 	envfile=$1
