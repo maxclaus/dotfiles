@@ -38,4 +38,18 @@ return {
       }
     )
   ),
+  env.s('printStruct', {
+    env.t {
+      '',
+      'func printStruct(name string, data any) {',
+      '  bytes, err := json.MarshalIndent(data, "", "  ")',
+      '  if err != nil {',
+      '    panic(err)',
+      '  }',
+      '  fmt.Println(string(bytes))',
+      '  fmt.Printf("****%s %s\\n", name, bytes)',
+      '}',
+      '',
+    },
+  }),
 }

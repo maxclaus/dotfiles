@@ -16,8 +16,166 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 starship init fish | source
 
 # Reload the shell
-function reload_fish
+function fish_reload
   source ~/.config/fish/config.fish
+end
+
+
+# Migrated helpers from ~/Development/alias.sh
+function vim
+  mvim -v $argv
+end
+
+function dc
+  docker compose $argv
+end
+
+function dcb
+  docker compose build $argv
+end
+
+function dcup
+  docker compose up $argv
+end
+
+function dcr
+  docker compose run --service-ports --rm $argv
+end
+
+function dcps
+  docker compose ps $argv
+end
+
+function dclogs
+  docker compose logs $argv
+end
+
+function gosrc
+  cd $GOPATH/src
+end
+
+function grep_exclude_node_modules
+  grep --exclude-dir="node_modules" $argv
+end
+
+function tm
+  gtime --format='\n---\n"%C" took %e seconds with %P CPU usage\n---\n' $argv
+end
+
+function new_uuid
+  uuidgen | string lower
+end
+
+function brewup
+  brew update
+  brew upgrade
+  brew prune
+  brew cleanup
+  brew doctor
+end
+
+function dcrun
+  set -l container_name $argv[1]
+  docker compose run --rm --use-aliases --service-ports $container_name sh
+end
+
+function reload-alias
+  if test -f ~/.config/fish/config.fish
+    source ~/.config/fish/config.fish
+    echo "> alias reloaded"
+  else
+    echo "> alias NOT reloaded"
+    return 1
+  end
+end
+
+function dcrm
+  docker compose stop $argv[1]
+  docker compose rm --force $argv[1]
+end
+
+# Find process by executable name and show the working directory as well.
+function pgrep_pwdx
+  for p in (pgrep $argv[1])
+    echo "$p | "(pwdx $p)
+  end
+end
+
+# pwdx for macOS: https://gist.github.com/tobym/648188
+function pwdx
+  lsof -a -d cwd -p $argv[1] -n -Fn | awk '/^n/ {print substr($0,2)}'
+end
+
+function pcwd
+  lsof -a -d cwd -p $argv[1]
+end
+
+function kill_process_cwd
+  set -l program $argv[1]
+  if test -z "$program"
+    echo "Missing program arg"
+    return 1
+  end
+
+  for p in (pgrep $program)
+    set -l p_path (pwdx $p)
+    if test "$p_path" = (pwd)
+      echo "Exiting process $p at $p_path"
+      kill $p
+      return 0
+    end
+  end
+
+  echo "Could not find process"
+  return 1
+end
+
+function get_wifi_ip
+  ipconfig getifaddr en0
+end
+
+function kill_process_running_at_port
+  set -l port $argv[1]
+  if test -z "$port"
+    echo "Usage: kill_process_running_at_port [numeric port identifier]" >&2
+    return 1
+  end
+
+  set -l pid (lsof -i TCP:$port | awk '/LISTEN/{print $2}')
+  if test -z "$pid"
+    echo "No process found on this port"
+    return 1
+  end
+
+  kill -9 $pid
+  echo "Process killed"
+end
+
+function envup
+  set -l envfile $argv[1]
+  if test -z "$envfile"
+    echo "Usage: envup [env file]" >&2
+    return 1
+  end
+
+  if not test -f "$envfile"
+    echo "Env file not found: $envfile" >&2
+    return 1
+  end
+
+  for line in (bash -c 'set -a; source "$1"; env -0' bash $envfile | string split0)
+    set -l pair (string split -m 1 = $line)
+    set -gx $pair[1] $pair[2]
+  end
+end
+
+if type -q rg
+  set -gx FZF_DEFAULT_COMMAND 'rg --files'
+  set -gx FZF_DEFAULT_OPTS '-m --height 50% --border'
+end
+
+function compress_pdf
+  gs -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="output.pdf" input.pdf
 end
 
 
@@ -34,22 +192,33 @@ set -Ux EDITOR nvim
 set -Ux VCPKG_ROOT $HOME/.config/vcpkg
 fish_add_path $VCPKG_ROOT
 
-# Setup Node tools
-set -Ux VOLTA_HOME $HOME/.config/volta
-fish_add_path $VOLTA_HOME/bin
+# I am using mise now
+# # Setup Node tools
+# set -Ux VOLTA_HOME $HOME/.config/volta
+# fish_add_path $VOLTA_HOME/bin
 
 # Setup Rust tools
 set -Ux RUSTUP_HOME $HOME/.config/rustup
 set -Ux CARGO_HOME $HOME/.config/cargo
 fish_add_path $CARGO_HOME/bin
 
+# Setup Go tools
+set -Ux GOPATH $HOME/Development/go
+fish_add_path $GOPATH/bin
+
+
 # Setup Python tools
 set -Ux PYTHON_BIN_PATH /opt/homebrew/opt/python@3.11/libexec/bin
 fish_add_path $PYTHON_BIN_PATH
+fish_add_path /Users/maxnunes/Library/Python/3.11/bin
+
 
 # Setup Solana tools
 set -Ux SOLANA_BIN_PATH /Users/maxnunes/.local/share/solana/install/active_release/bin
 fish_add_path $SOLANA_BIN_PATH
+
+# Setup psql
+fish_add_path /opt/homebrew/opt/postgresql@17/bin
 
 ## TODO: move it to functions directory
 # https://github.com/jhillyerd/plugin-git/blob/master/functions/__git.default_branch.fish
@@ -69,12 +238,17 @@ end
 # Based on https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
 abbr -ag g 'git'
 abbr -ag grbm 'git rebase (git_main_branch)'
+abbr -ag grbqa 'git rebase qa'
+abbr -ag grbc 'git rebase --continue'
+abbr -ag grba 'git rebase --abort'
 abbr -ag gb 'git branch'
-abbr -ag gcb 'git checkout -b'
 abbr -ag gcl 'git clone'
 abbr -ag gl 'git pull'
 abbr -ag gc 'git commit'
+abbr -ag gcb 'git checkout -b'
 abbr -ag gco 'git checkout'
+abbr -ag gsw 'git switch'
+abbr -ag gswc 'git switch -c'
 abbr -ag gd 'git diff'
 abbr -ag gp 'git push'
 abbr -ag gcm 'git checkout (git_main_branch)'

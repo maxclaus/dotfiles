@@ -55,8 +55,9 @@ o.splitright = true -- force all vertical splits to go to the right of current w
 o.swapfile = true -- enable/disable swap file creation
 o.tabstop = 2 -- how many columns a tab counts for
 o.termguicolors = true -- set term gui true colors (most terminals support this)
-o.timeoutlen = 400 -- time to wait for a mapped sequence to complete (in milliseconds)
-o.ttimeoutlen = 0 -- Time in milliseconds to wait for a key code sequence to complete
+-- use default values for timeout config to resolve some paste issues ocurring since neovim v0.12
+-- o.timeoutlen = 400 -- time to wait for a mapped sequence to complete (in milliseconds)
+-- o.ttimeoutlen = 50 -- Time in milliseconds to wait for a key code sequence to complete
 o.undodir = fn.stdpath 'data' .. '/undodir' -- set undo directory
 o.undofile = true -- enable/disable undo file creation
 o.undolevels = 1000

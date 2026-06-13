@@ -34,7 +34,7 @@ local function setup_lsp_language_server(lsp)
   end
 
   -- NOTE: It uses the default configuration for each server from nvim-lspconfig.
-  nvim_lsp[lsp].setup {
+  vim.lsp.config(lsp, {
     before_init = function(_, config)
       if lsp == 'pyright' then
         config.settings.python.pythonPath = utils.get_python_path(config.root_dir)
@@ -43,16 +43,16 @@ local function setup_lsp_language_server(lsp)
     capabilities = capabilities,
     flags = { debounce_text_changes = 150 },
     settings = lsp_server_settings,
-  }
+  })
 end
 
 for _, lsp in ipairs(settings.lsp_servers) do
   setup_lsp_language_server(lsp)
 end
 
-nvim_lsp.flow.setup {
+vim.lsp.config('flow', {
   capabilities = capabilities,
-}
+})
 
 -- NOTE: In order to support Flow language properly, it needs to use jsx filetype.
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/3350

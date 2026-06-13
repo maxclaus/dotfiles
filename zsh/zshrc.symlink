@@ -54,8 +54,9 @@ export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/llvm/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 
 export PATH=$(pyenv root)/shims:$PATH
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+# export VOLTA_HOME="$HOME/.volta"
+# export PATH="$VOLTA_HOME/bin:$PATH"
+eval "$(mise activate zsh)"
 export CARGO_HOME=~/.config/cargo
 export RUSTUP_HOME=~/.config/rustup
 source "$CARGO_HOME/env"

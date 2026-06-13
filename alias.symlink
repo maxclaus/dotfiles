@@ -10,7 +10,6 @@ alias grep_exclude_node_modules='grep --exclude-dir="node_modules"'
 alias tm="gtime --format='\n---\n\"%C\" took %e seconds with %P CPU usage\n---\n'"
 alias new_uuid='uuidgen | tr "[:upper:]" "[:lower:]"'
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
-alias gh='github'
 
 dcrun() {
 	container_name=$1
@@ -111,3 +110,8 @@ if type rg &> /dev/null; then
   export FZF_DEFAULT_OPTS='-m --height 50% --border'
   # export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 fi
+
+compress_pdf() {
+  # uses ghostscript to compress pdf file
+  gs -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="output.pdf" input.pdf
+}

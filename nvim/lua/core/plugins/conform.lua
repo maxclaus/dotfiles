@@ -18,8 +18,8 @@ return {
       go = { 'goimports', 'gofmt' },
       javascript = { 'prettier' },
       javascriptreact = { 'prettier' }, -- used by the Flow language
-      typescript = { 'prettier' },
-      typescriptreact = { 'prettier' },
+      typescript = { 'eslint_d', 'prettier' },
+      typescriptreact = { 'eslint_d', 'prettier' },
       -- json = { 'prettier' },
       lua = { 'stylua' },
       markdown = { 'prettier' },

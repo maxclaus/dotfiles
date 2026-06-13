@@ -4,8 +4,8 @@
 [hub]
   protocol = https
 [user]
-  name = Max Claus
-  email = maxclaus@posteo.com
+	name = Max Claus
+	email = maxclaus@posteo.com
   signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG0LatPsb3KqjZVFbB/cr1LpA268IA0G2VR56ndo41ob
 [credential]
   helper = osxkeychain
@@ -18,7 +18,7 @@
   branch = auto
   ui = true
 [core]
-  excludesfile = ~/.gitignore
+	excludesfile = /Users/maxnunes/.gitignore_global
   editor = vim
   pager = diff-so-fancy | less --tabs=4 -RFX
 [apply]
@@ -41,3 +41,14 @@
   program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [includeIf "gitdir:~/Development/ernest/"]
   path = ~/.gitconfig-ernest
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

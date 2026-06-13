@@ -1,6 +1,7 @@
 -- Plugin to highlight, edit, and navigate code
 local M = {
   'nvim-treesitter/nvim-treesitter',
+  branch = 'master',
   build = ':TSUpdate',
   event = { 'BufReadPost', 'BufNewFile' },
   dependencies = {

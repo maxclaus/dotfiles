@@ -64,6 +64,7 @@ return {
       end,
       styles = {
         custom = function(entity, _)
+          -- TODO: show only last 50 chars
           local path = require 'grapple.path'
 
           local parent_mark = {
@@ -88,7 +89,7 @@ return {
       -- style = 'basename',
       -- style = 'relative',
       win_opts = {
-        width = 80,
+        width = 150,
         height = 12,
         row = 0.3,
         border = 'rounded',
