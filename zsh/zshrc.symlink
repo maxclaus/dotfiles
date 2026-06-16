@@ -21,12 +21,6 @@ fi
 
 source ~/Development/alias.sh
 
-# Load NVM
-export NVM_DIR="$HOME/.nvm"
-NVM_ROOT=$(brew --prefix nvm)
-[ -s "${NVM_ROOT}/nvm.sh" ] && . "${NVM_ROOT}/nvm.sh"  # This loads nvm
-[ -s "${NVM_ROOT}/etc/bash_completion.d/nvm" ] && . "${NVM_ROOT}/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
 # http://superuser.com/questions/357355/how-can-i-get-controlleft-arrow-to-go-back-one-word-in-iterm2?answertab=votes#tab-top
 bindkey -e
 bindkey '^[[1;9C' forward-word

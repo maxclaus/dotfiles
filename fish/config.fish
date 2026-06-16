@@ -195,10 +195,8 @@ set -Ux EDITOR nvim
 set -Ux VCPKG_ROOT $HOME/.config/vcpkg
 fish_add_path $VCPKG_ROOT
 
-# I am using mise now
-# # Setup Node tools
-# set -Ux VOLTA_HOME $HOME/.config/volta
-# fish_add_path $VOLTA_HOME/bin
+# Setup mise (manages node and other runtimes)
+command -v mise &>/dev/null && mise activate fish | source
 
 # Setup Rust tools
 set -Ux RUSTUP_HOME $HOME/.config/rustup

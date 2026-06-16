@@ -34,7 +34,7 @@ deps=(
   fish
   starship
   wget
-  nvm
+  mise
   osx
   go
   rust
@@ -60,6 +60,7 @@ deps=(
   tableplus
   claude-code
   codex
+  aws
 )
 
 for dep in "${deps[@]}"
@@ -70,11 +71,9 @@ do
   chmod +x $installer
   $installer
 
-  # After nvm is installed, load it so subsequent scripts can use node/npm
-  if [ "$dep" = "nvm" ]; then
-    export NVM_DIR="$HOME/.nvm"
-    NVM_ROOT=$(brew --prefix nvm 2>/dev/null)
-    [ -s "${NVM_ROOT}/nvm.sh" ] && \. "${NVM_ROOT}/nvm.sh"
+  # After mise is installed, activate it so subsequent scripts can use node/npm
+  if [ "$dep" = "mise" ]; then
+    eval "$(mise activate bash --shims)"
   fi
 
   success "$dep"
