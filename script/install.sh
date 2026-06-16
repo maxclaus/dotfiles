@@ -27,18 +27,17 @@ mkdir -p ~/Development
 # Link files
 ln -sf ~/.dotfiles/alias.symlink ~/Development/alias.sh
 ln -sf ~/.dotfiles/sleep.symlink ~/.sleep
-ln -sf ~/Dropbox/dotfiles-secret/.tokenizer.json ~/
-ln -sf ~/Dropbox/dotfiles-secret/.sqlectron.json ~/
 
 # List of libraries and apps to be installed
 deps=(
   homebrew
-  zsh
-  oh-my-zsh
+  fish
+  starship
   wget
   nvm
   osx
   go
+  rust
   tmux
   silver-search
   vim
@@ -49,8 +48,8 @@ deps=(
   chrome
   firefox
   1password
-  1password-cli
   slack
+  wezterm
   iterm
   zoomus
   alfred
@@ -58,11 +57,10 @@ deps=(
   notion
   mas
   magnet
-  jet
   tableplus
+  claude-code
+  codex
 )
-
-brew install diff-so-fancy
 
 for dep in "${deps[@]}"
 do
@@ -71,6 +69,13 @@ do
   installer="./${dep}/install.sh"
   chmod +x $installer
   $installer
+
+  # After nvm is installed, load it so subsequent scripts can use node/npm
+  if [ "$dep" = "nvm" ]; then
+    export NVM_DIR="$HOME/.nvm"
+    NVM_ROOT=$(brew --prefix nvm 2>/dev/null)
+    [ -s "${NVM_ROOT}/nvm.sh" ] && \. "${NVM_ROOT}/nvm.sh"
+  fi
 
   success "$dep"
 done

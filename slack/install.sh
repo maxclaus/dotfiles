@@ -5,5 +5,5 @@ dotfiles=$HOME/.dotfiles
 source $dotfiles/script/helper.sh
 
 if [ "$OS" == "darwin" ]; then
-  brew install --cask --appdir="/Applications" slack
+  brew_install_cask slack --appdir="/Applications"
 fi

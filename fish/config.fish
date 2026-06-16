@@ -5,12 +5,15 @@
 # Disable the fish greeting message
 set fish_greeting ""
 
-# fish_add_path ~/.config/bin
-# # Add homebrew binaries to the path
-# fish_add_path "/opt/homebrew/bin/"
+# Setup  local bin path
+fish_add_path ~/.local/bin
 
-# Setup brew
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Setup brew (works on both Intel /usr/local and Apple Silicon /opt/homebrew)
+if test -x /opt/homebrew/bin/brew
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+else if test -x /usr/local/bin/brew
+  eval "$(/usr/local/bin/brew shellenv)"
+end
 
 # Setup starship
 starship init fish | source
@@ -208,8 +211,11 @@ fish_add_path $GOPATH/bin
 
 
 # Setup Python tools
-set -Ux PYTHON_BIN_PATH /opt/homebrew/opt/python@3.11/libexec/bin
-fish_add_path $PYTHON_BIN_PATH
+set -l _python_prefix (brew --prefix python@3.11 2>/dev/null)
+if test -n "$_python_prefix"
+  set -Ux PYTHON_BIN_PATH $_python_prefix/libexec/bin
+  fish_add_path $PYTHON_BIN_PATH
+end
 fish_add_path /Users/maxnunes/Library/Python/3.11/bin
 
 
@@ -255,4 +261,5 @@ abbr -ag gcm 'git checkout (git_main_branch)'
 abbr -ag gst 'git status'
 
 ## -> Load secret configurations
-source ~/Dropbox/dotfiles-secret/alias.fish
+test -f ~/Dropbox/dotfiles-secret/alias.fish && source ~/Dropbox/dotfiles-secret/alias.fish
+export PATH="$HOME/.local/bin:$PATH"

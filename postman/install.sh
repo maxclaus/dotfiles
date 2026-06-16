@@ -5,5 +5,5 @@ dotfiles=$HOME/.dotfiles
 source $dotfiles/script/helper.sh
 
 if [ "$OS" == "darwin" ]; then
-  brew install --cask --appdir="/Applications" postman
+  brew_install_cask postman --appdir="/Applications"
 fi

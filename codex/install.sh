@@ -4,6 +4,6 @@ set -e
 dotfiles=$HOME/.dotfiles
 source $dotfiles/script/helper.sh
 
-if [ "$OS" == "darwin" ]; then
-  brew_install_cask gitup --appdir="/Applications"
+if ! command -v codex &>/dev/null; then
+  npm install --global @openai/codex
 fi

@@ -21,10 +21,11 @@ if [ "$OS" == "darwin" ]; then
   # Install homebrew packages
   # brew install grc coreutils spark
 
-  brew doctor
+  # TODO: remove once all machines have been migrated — these taps are now built into Homebrew
+  brew untap homebrew/core 2>/dev/null || true
+  brew untap homebrew/cask 2>/dev/null || true
+
   brew update
   brew upgrade
-
-  # Allows install beta versions
-  brew tap homebrew/cask-versions
+  brew doctor || true
 fi

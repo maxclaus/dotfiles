@@ -5,5 +5,5 @@ dotfiles=$HOME/.dotfiles
 source $dotfiles/script/helper.sh
 
 if [ "$OS" == "darwin" ]; then
-  brew install --cask --appdir="/Applications" iterm2-beta
+  brew_install_cask iterm2@beta --appdir="/Applications"
 fi

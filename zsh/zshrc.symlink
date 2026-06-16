@@ -1,7 +1,10 @@
 source ~/.dotfiles/script/helper.sh
 
-# Load homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Load homebrew (works on both Intel /usr/local and Apple Silicon /opt/homebrew)
+BREW_PATH=/opt/homebrew/bin/brew
+[ ! -x "$BREW_PATH" ] && BREW_PATH=/usr/local/bin/brew
+[ -x "$BREW_PATH" ] && eval "$($BREW_PATH shellenv)"
+unset BREW_PATH
 
 export GOPATH=$HOME/Development/go
 export PATH=$PATH:$GOPATH/bin
@@ -10,8 +13,11 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$HOME/bin
 
 # For python
-PYTHON_BIN_PATH=/opt/homebrew/opt/python@3.11/libexec/bin
-export PATH=$PATH:$PYTHON_BIN_PATH
+if command -v brew &>/dev/null; then
+  PYTHON_BIN_PATH=$(brew --prefix python@3.11 2>/dev/null)/libexec/bin
+  [ -d "$PYTHON_BIN_PATH" ] && export PATH=$PATH:$PYTHON_BIN_PATH
+  unset PYTHON_BIN_PATH
+fi
 
 source ~/Development/alias.sh
 
@@ -53,28 +59,35 @@ export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/llvm/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 
-export PATH=$(pyenv root)/shims:$PATH
+command -v pyenv &>/dev/null && export PATH=$(pyenv root)/shims:$PATH
 # export VOLTA_HOME="$HOME/.volta"
 # export PATH="$VOLTA_HOME/bin:$PATH"
-eval "$(mise activate zsh)"
+command -v mise &>/dev/null && eval "$(mise activate zsh)"
 export CARGO_HOME=~/.config/cargo
 export RUSTUP_HOME=~/.config/rustup
-source "$CARGO_HOME/env"
+[ -f "$CARGO_HOME/env" ] && source "$CARGO_HOME/env"
 
-eval "$(starship init zsh)"
+command -v starship &>/dev/null && eval "$(starship init zsh)"
 
 # Activate syntax highlighting
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# Disable underline
-(( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[path]=none
-ZSH_HIGHLIGHT_STYLES[path_prefix]=none
-# Change colors
-# export ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=blue
-# export ZSH_HIGHLIGHT_STYLES[precommand]=fg=blue
-# export ZSH_HIGHLIGHT_STYLES[arg0]=fg=blue
+ZSH_HIGHLIGHT="$(brew --prefix 2>/dev/null)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+if [ -f "$ZSH_HIGHLIGHT" ]; then
+  source "$ZSH_HIGHLIGHT"
+  # Disable underline
+  (( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
+  ZSH_HIGHLIGHT_STYLES[path]=none
+  ZSH_HIGHLIGHT_STYLES[path_prefix]=none
+  # Change colors
+  # export ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=blue
+  # export ZSH_HIGHLIGHT_STYLES[precommand]=fg=blue
+  # export ZSH_HIGHLIGHT_STYLES[arg0]=fg=blue
+fi
+unset ZSH_HIGHLIGHT
 
 # Activate autosuggestions
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-. "/Users/maxnunes/.deno/env"
-. "$HOME/.local/bin/env"
+ZSH_AUTOSUGGEST="$(brew --prefix 2>/dev/null)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[ -f "$ZSH_AUTOSUGGEST" ] && source "$ZSH_AUTOSUGGEST"
+unset ZSH_AUTOSUGGEST
+
+[ -f "/Users/maxnunes/.deno/env" ] && . "/Users/maxnunes/.deno/env"
+[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"

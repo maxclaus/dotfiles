@@ -5,5 +5,5 @@ dotfiles=$HOME/.dotfiles
 source $dotfiles/script/helper.sh
 
 if [ "$OS" == "darwin" ]; then
-  brew install --cask --appdir="/Applications" firefox
+  brew_install_cask firefox --appdir="/Applications"
 fi

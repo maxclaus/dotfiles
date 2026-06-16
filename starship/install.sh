@@ -12,6 +12,4 @@ elif [ "$OS" == "linux" ]; then
   exit 1
 fi
 
-if ! [ -L ~/.config/starship.toml  ]; then
-  ln -s $dotfiles/starship/starship.toml ~/.config/starship.toml
-fi
+symlink_config $dotfiles/starship/starship.toml ~/.config/starship.toml
