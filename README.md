@@ -50,6 +50,27 @@ cd ~/.dotfiles
 
 ### MacOS
 
+#### Applications
+
+Install these applications manually so they can manage their own updates without
+being replaced by `brew upgrade`:
+
+* [1Password](https://1password.com/downloads/mac/)
+* [Alfred](https://www.alfredapp.com/)
+* [Caffeine](https://www.caffeine-app.net/)
+* [Charles](https://www.charlesproxy.com/download/)
+* [Firefox](https://www.mozilla.org/firefox/new/)
+* [GitUp](https://gitup.co/)
+* [Google Chrome](https://www.google.com/chrome/)
+* [iTerm2](https://iterm2.com/downloads.html)
+* [Magnet](https://apps.apple.com/app/magnet/id441258766)
+* [Notion](https://www.notion.com/desktop)
+* [Postman](https://www.postman.com/downloads/)
+* [Slack](https://slack.com/downloads/mac)
+* [TablePlus](https://tableplus.com/download)
+* [WezTerm](https://wezterm.org/installation.html)
+* [Zoom](https://zoom.us/download)
+
 * [Trackpad - three finger drag](https://support.apple.com/en-us/HT204609)
 * [Font](https://gist.github.com/baopham/1838072)
 

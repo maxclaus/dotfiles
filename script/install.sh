@@ -44,22 +44,8 @@ deps=(
   vim
   nvim
   docker
-  gitup
-  caffeine
-  chrome
-  firefox
-  1password
   1password-cli
-  slack
-  iterm
-  zoomus
-  alfred
-  postman
-  notion
-  mas
-  magnet
   jet
-  tableplus
 )
 
 brew install diff-so-fancy

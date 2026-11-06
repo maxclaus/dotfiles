@@ -9,7 +9,7 @@ alias gosrc='cd $GOPATH/src'
 alias grep_exclude_node_modules='grep --exclude-dir="node_modules"'
 alias tm="gtime --format='\n---\n\"%C\" took %e seconds with %P CPU usage\n---\n'"
 alias new_uuid='uuidgen | tr "[:upper:]" "[:lower:]"'
-alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
+alias brewup='brew update; brew upgrade --formula; brew prune; brew cleanup; brew doctor'
 
 dcrun() {
 	container_name=$1

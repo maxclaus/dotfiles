@@ -23,7 +23,7 @@ if [ "$OS" == "darwin" ]; then
 
   brew doctor
   brew update
-  brew upgrade
+  brew upgrade --formula
 
   # Allows install beta versions
   brew tap homebrew/cask-versions
