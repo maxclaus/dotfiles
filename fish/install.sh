@@ -20,9 +20,7 @@ fi
 
 chsh -s $(echo $FISH_BIN)
 
-if ! [ -L ~/.config/fish  ]; then
-  ln -s $dotfiles/fish ~/.config/fish
-fi
+symlink_config $dotfiles/fish ~/.config/fish
 
 # Run the rest of the commands on fish shell
 $dotfiles/fish/post-install.fish

@@ -12,9 +12,7 @@ elif [ "$OS" == "linux" ]; then
   exit 1
 fi
 
-if ! [ -L ~/.config/nvim  ]; then
-  ln -s $dotfiles/nvim ~/.config/nvim
-fi
+symlink_config $dotfiles/nvim ~/.config/nvim
 
 echo '==> Installing vim plugins'
 nvim --headless "+Lazy! sync" +qa

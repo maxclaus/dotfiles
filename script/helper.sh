@@ -36,3 +36,24 @@ get_os () {
 }
 
 export OS=`get_os`
+
+symlink_config () {
+  # Usage: symlink_config <source> <target>
+  # Creates target as a symlink to source, replacing a real directory if needed
+  local source=$1
+  local target=$2
+  if [ -d "$target" ] && ! [ -L "$target" ]; then
+    rm -rf "$target"
+  fi
+  if ! [ -e "$target" ]; then
+    ln -s "$source" "$target"
+  fi
+}
+
+brew_install_cask () {
+  # Usage: brew_install_cask <cask> [extra flags...]
+  # Example: brew_install_cask zoom --appdir="/Applications"
+  local cask=$1
+  shift
+  brew list --cask "$cask" &>/dev/null || brew install --cask "$@" "$cask" || true
+}

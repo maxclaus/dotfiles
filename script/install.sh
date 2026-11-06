@@ -27,28 +27,29 @@ mkdir -p ~/Development
 # Link files
 ln -sf ~/.dotfiles/alias.symlink ~/Development/alias.sh
 ln -sf ~/.dotfiles/sleep.symlink ~/.sleep
-ln -sf ~/Dropbox/dotfiles-secret/.tokenizer.json ~/
-ln -sf ~/Dropbox/dotfiles-secret/.sqlectron.json ~/
 
 # List of libraries and apps to be installed
 deps=(
   homebrew
-  zsh
-  oh-my-zsh
+  fish
+  starship
   wget
-  nvm
+  mise
   osx
   go
+  rust
   tmux
   silver-search
   vim
   nvim
   docker
-  1password-cli
+  1password
   jet
+  wezterm
+  claude-code
+  codex
+  aws
 )
-
-brew install diff-so-fancy
 
 for dep in "${deps[@]}"
 do
@@ -57,6 +58,11 @@ do
   installer="./${dep}/install.sh"
   chmod +x $installer
   $installer
+
+  # After mise is installed, activate it so subsequent scripts can use node/npm
+  if [ "$dep" = "mise" ]; then
+    eval "$(mise activate bash --shims)"
+  fi
 
   success "$dep"
 done

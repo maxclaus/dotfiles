@@ -10,9 +10,7 @@ elif [ "$OS" == "linux" ]; then
   sudo apt-get install vim-gnome -y
 fi
 
-if ! [ -L ~/.vim  ]; then
-  ln -s $dotfiles/vim ~/.vim
-fi
+symlink_config $dotfiles/vim ~/.vim
 ln -fs $dotfiles/vim/vimrc ~/.vimrc
 mkdir -p ~/.vim/{.backup,.swap}
 
